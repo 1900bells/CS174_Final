@@ -15,8 +15,15 @@ Description: Script that controls the cube objects and many of their sounds
 
 public class CubeController : MonoBehaviour
 {
-    //check if the object is a bomb
-    public bool IsBomb;
+    // Is this object a normal pick up, bomb, or treasure?
+    public enum CollectableType
+    {
+        PickUp,
+        Bomb,
+        Treasure
+    }
+
+    private CollectableType type;
 
     // Is this object already collected
     public bool Collected;
@@ -31,7 +38,7 @@ public class CubeController : MonoBehaviour
     void Start()
     {
         //if the object is a bomb, initiate the approaching ticking sound
-        if (IsBomb == true)
+        if (type == CollectableType.Bomb)
         {
             TickingSound = GetComponent<AudioSource>();
             TickingSound.Play();
@@ -88,5 +95,22 @@ public class CubeController : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public CollectableType Type()
+    {
+        return type;
+    }
+
+    public void Type(CollectableType _type)
+    {
+        type = _type;
+
+        //if the object is a bomb, initiate the approaching ticking sound
+        if (type == CollectableType.Bomb)
+        {
+            TickingSound = GetComponent<AudioSource>();
+            TickingSound.Play();
+        }
     }
 }

@@ -28,6 +28,25 @@ public class GameController : MonoBehaviour
 
         // Play menu music
         musicController.PlayMenuMusic();
+
+        // Randomly set one of the pick ups to be bomb & one to be treasure
+        GameObject[] pickUps = GameObject.FindGameObjectsWithTag("Pick Up");
+        int numPickUps = pickUps.Length;
+        if (pickUps.Length > 0)
+        {
+            // Generate which pickup is bomb
+            int bomb = Random.Range(0, numPickUps - 1);
+            // Generate which pickup is treasure
+            int treasure = 0;
+            do
+            {
+                treasure = Random.Range(0, numPickUps - 1);
+            } while (treasure == bomb);  // Ensure treasure is not bomb
+
+            // Assign treasure and bomb
+            pickUps[bomb].gameObject.GetComponent<CubeController>().Type(CubeController.CollectableType.Bomb);
+            pickUps[treasure].gameObject.GetComponent<CubeController>().Type(CubeController.CollectableType.Treasure);
+        }
     }
 
     // Update is called once per frame
