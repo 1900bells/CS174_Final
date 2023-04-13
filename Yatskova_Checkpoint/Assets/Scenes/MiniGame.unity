@@ -2655,8 +2655,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f69b3552968a14c95ec3ccec0bf60e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 15
-  jumpHeight: 20
+  speed: 1000
+  jumpHeight: 100
   countText: {fileID: 1285779787}
   winText: {fileID: 1183601597}
   timerText: {fileID: 452047111}
@@ -3074,7 +3074,7 @@ GameObject:
   - component: {fileID: 1031699764}
   - component: {fileID: 1031699765}
   m_Layer: 0
-  m_Name: GameStateController
+  m_Name: GameController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3108,6 +3108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicController: {fileID: 1695475779}
+  player: {fileID: 968101100}
 --- !u!1 &1036884387
 GameObject:
   m_ObjectHideFlags: 0

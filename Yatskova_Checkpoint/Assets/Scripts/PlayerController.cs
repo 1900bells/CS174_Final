@@ -107,9 +107,27 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    // Roll the player in a specific direction
+    public void Move(Vector3 direction)
+    {
+        // Multiply movement by speed
+        rb.AddForce(direction * speed * Time.deltaTime);
+
+        // Update the sound of the rolling ball based on current horizontal speed
+        if (NotJumping == false)
+        {
+            MovementSound.volume = 0;
+        }
+        else if (NotJumping == true)
+        {
+            MovementSound.volume = rb.velocity.magnitude * 1000;
+        }
+    }
+
     //called before performing physics calculations
     void FixedUpdate()
     {
+        /*
         //get input from the player through the keyboard
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
@@ -121,7 +139,8 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(movement * speed);
 
         SetCountText();
-        UpdateMovementSound();;
+        UpdateMovementSound();
+         */
     }
 
     //the movement sound (sound of the ball rolling) will get louder depending on how fast the player is moving
@@ -142,27 +161,22 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        Jump();
+        SetCountText();
     }
 
     //jump mechanic
-    void Jump()
+    public void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Vector3 jump = new Vector3(0.0f, jumpHeight, 0.0f);
-            rb.AddForce(jump * speed);
+        Vector3 jump = new Vector3(0.0f, jumpHeight, 0.0f);
+        rb.AddForce(jump);
 
-            //Debug.Log("Player Jumped");
+        //Debug.Log("Player Jumped");
 
-            NotJumping = false;
+        NotJumping = false;
 
-            JumpSource.clip = JumpClip;
-
-            JumpSource.Play();
-
-        }
-
+        // Play jump sound effect
+        JumpSource.clip = JumpClip;
+        JumpSource.Play();
     }
 
 
