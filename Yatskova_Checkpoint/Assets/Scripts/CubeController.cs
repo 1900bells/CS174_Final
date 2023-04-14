@@ -32,18 +32,12 @@ public class CubeController : MonoBehaviour
     public AudioClip audioClip;
 
     //sound of the ticking bomb
-    public AudioSource TickingSound;
+    public AudioSource TickingSource;
+    public AudioClip TickingSound;
 
     // Start is called before the first frame update
     void Start()
     {
-        //if the object is a bomb, initiate the approaching ticking sound
-        if (type == CollectableType.Bomb)
-        {
-            TickingSound = GetComponent<AudioSource>();
-            TickingSound.Play();
-        }
-
         // Set object to uncollected
         Collected = false;
     }
@@ -55,7 +49,7 @@ public class CubeController : MonoBehaviour
         Collected = true;
 
         // Stop ticking sound effect
-        TickingSound.Stop();
+        TickingSource.Stop();
         //Play the pickup sound effect
         audioSource = GetComponent<AudioSource>();
         audioSource.clip = audioClip;
@@ -109,8 +103,10 @@ public class CubeController : MonoBehaviour
         //if the object is a bomb, initiate the approaching ticking sound
         if (type == CollectableType.Bomb)
         {
-            TickingSound = GetComponent<AudioSource>();
-            TickingSound.Play();
+            TickingSource = GetComponent<AudioSource>();
+            TickingSource.loop = true;
+            TickingSource.clip = TickingSound;
+            TickingSource.Play();
         }
     }
 }
