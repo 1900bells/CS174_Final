@@ -38,7 +38,9 @@ public class PlayerController : MonoBehaviour
     public AudioSource MovementSound;
     public AudioClip MovementClip;
 
-    
+    public AudioSource CollisionSource;
+    public AudioClip CollisionClip;
+
     public AudioSource[] SourceArray;
 
     public int maxTime;
@@ -99,6 +101,8 @@ public class PlayerController : MonoBehaviour
         MovementSound.Play();
 
         JumpSource = SourceArray[1];
+
+        CollisionSource = SourceArray[2];
 
         UpdateGameActiveState(true);
 
@@ -183,7 +187,16 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-           NotJumping = true;
+        NotJumping = true;
+
+        if (collision.relativeVelocity.magnitude > 0)
+        {
+            //float volume = Mathf.Ceil(collision.relativeVelocity.magnitude)
+
+            // Play collision sound effect
+            CollisionSource.clip = CollisionClip;
+            CollisionSource.Play();
+        }
     }
 
     // set the count text

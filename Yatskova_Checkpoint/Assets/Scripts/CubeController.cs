@@ -58,7 +58,6 @@ public class CubeController : MonoBehaviour
         //Make object invisible
         gameObject.GetComponent<MeshRenderer>().enabled = false;
 
-
         //Give object a chance to play sound before disabling
         Invoke("Disable", audioClip.length);
     }

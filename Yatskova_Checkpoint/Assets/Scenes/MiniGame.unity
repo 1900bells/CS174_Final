@@ -2746,6 +2746,8 @@ MonoBehaviour:
   JumpClip: {fileID: 8300000, guid: 979ce1b738edfe245acbd4c259a1419f, type: 3}
   MovementSound: {fileID: 0}
   MovementClip: {fileID: 8300000, guid: 5caf9df66b017dd4a835d4f20a671247, type: 3}
+  CollisionSource: {fileID: 0}
+  CollisionClip: {fileID: 8300000, guid: b0874afd2e90ed14680c9c0658ebfbe2, type: 3}
   SourceArray:
   - {fileID: 0}
   - {fileID: 0}
@@ -3059,7 +3061,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
