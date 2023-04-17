@@ -239,8 +239,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Collected: 0
   audioSource: {fileID: 5537722628211249138}
-  audioClip: {fileID: 8300000, guid: 6d0b2ad0869824544865f97bff8197f3, type: 3}
+  CollectClip: {fileID: 8300000, guid: 6d0b2ad0869824544865f97bff8197f3, type: 3}
+  ExplodeClip: {fileID: 8300000, guid: 81762923707c8a34481cf423ac8c52c9, type: 3}
   TickingSource: {fileID: 5537722628211249138}
   TickingSound: {fileID: 8300000, guid: 62b2289df08ad384c832a5462d8d550f, type: 3}
   MaxTickingDistance: 5
   player: {fileID: 0}
+  defaultColor: {r: 0.56078434, g: 0, b: 0.99607843, a: 1}

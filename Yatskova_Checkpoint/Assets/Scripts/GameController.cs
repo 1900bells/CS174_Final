@@ -70,6 +70,17 @@ public class GameController : MonoBehaviour
         Vector3 direction = new Vector3(moveHorizontal, 0.0f, moveVertical);
         player.Move(direction);
 
+        // Player holds cheat button
+        if (Input.GetKey(KeyCode.Mouse0))
+        {
+            // Reveal the bomb and treasure objects
+            CubeController.RevealBombAndTreasure();
+        }
+        else
+        {
+            CubeController.HideBombAndTreasure();
+        }
+
         // Player presses pause button
         if (Input.GetKeyDown(KeyCode.Escape))
         {

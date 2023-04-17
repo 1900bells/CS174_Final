@@ -29,7 +29,8 @@ public class CubeController : MonoBehaviour
     public bool Collected;
 
     public AudioSource audioSource;
-    public AudioClip audioClip;
+    public AudioClip CollectClip;
+    public AudioClip ExplodeClip;
 
     //sound of the ticking bomb
     public AudioSource TickingSource;
@@ -38,6 +39,8 @@ public class CubeController : MonoBehaviour
 
     // Object specific references
     public GameObject player;
+
+    static Color defaultColor = new Color32(143, 0, 254, 1);
 
     // Start is called before the first frame update
     void Start()
@@ -70,16 +73,14 @@ public class CubeController : MonoBehaviour
 
         // Stop ticking sound effect
         TickingSource.Stop();
-        //Play the pickup sound effect
-        audioSource = GetComponent<AudioSource>();
-        audioSource.clip = audioClip;
+        //Play the explode sound effect
         audioSource.Play();
 
         //Make object invisible
         gameObject.GetComponent<MeshRenderer>().enabled = false;
 
         //Give object a chance to play sound before disabling
-        Invoke("Disable", audioClip.length);
+        Invoke("Disable", CollectClip.length);
     }
 
     public void PickupObject()
@@ -88,14 +89,14 @@ public class CubeController : MonoBehaviour
 
         //Play the pickup sound effect
         audioSource = GetComponent<AudioSource>();
-        audioSource.clip = audioClip;
+        audioSource.clip = CollectClip;
         audioSource.Play();
 
         //Make object invisible
         gameObject.GetComponent<MeshRenderer>().enabled = false;
 
         //Give object a chance to play sound before disabling
-        Invoke("Disable", audioClip.length);
+        Invoke("Disable", CollectClip.length);
     }
 
     // Disable the game object
@@ -121,6 +122,39 @@ public class CubeController : MonoBehaviour
             TickingSource.loop = true;
             TickingSource.clip = TickingSound;
             TickingSource.Play();
+
+            // Explode sound should play when collected
+            audioSource.clip = ExplodeClip;
+        }
+    }
+
+    // Make bomb and treasure objects a different color
+    public static void RevealBombAndTreasure()
+    {
+        CubeController[] pickUps = GameObject.FindObjectsOfType<CubeController>();
+        foreach (CubeController pickup in pickUps)
+        {
+            // Turn bombs red
+            if (pickup.type == CollectableType.Bomb)
+                pickup.GetComponent<Renderer>().material.color = Color.red;
+            // Turn treasures yellow
+            else if (pickup.type == CollectableType.Treasure)
+                pickup.GetComponent<Renderer>().material.color = Color.yellow;
+        }
+    }
+
+    // Return bomb and treasure objects to defualt color
+    public static void HideBombAndTreasure()
+    {
+        CubeController[] pickUps = GameObject.FindObjectsOfType<CubeController>();
+        foreach (CubeController pickup in pickUps)
+        {
+            // Turn bombs red
+            if (pickup.type == CollectableType.Bomb)
+                pickup.GetComponent<Renderer>().material.color = defaultColor;
+            // Turn treasures yellow
+            else if (pickup.type == CollectableType.Treasure)
+                pickup.GetComponent<Renderer>().material.color = defaultColor;
         }
     }
 }
