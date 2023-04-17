@@ -122,7 +122,8 @@ public class PlayerController : MonoBehaviour
         }
         else if (NotJumping == true)
         {
-            MovementSound.volume = rb.velocity.magnitude * 1000;
+            float magnitude = rb.velocity.magnitude;
+            MovementSound.volume = Mathf.Clamp(magnitude, 0.0f, 15.0f) / 15.0f;
         }
     }
 
