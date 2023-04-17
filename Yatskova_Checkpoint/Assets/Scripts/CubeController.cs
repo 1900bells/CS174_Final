@@ -34,12 +34,32 @@ public class CubeController : MonoBehaviour
     //sound of the ticking bomb
     public AudioSource TickingSource;
     public AudioClip TickingSound;
+    public float MaxTickingDistance;
+
+    // Object specific references
+    public GameObject player;
 
     // Start is called before the first frame update
     void Start()
     {
-        // Set object to uncollected
+        // Object has not been collected yet
         Collected = false;
+
+        // Get reference to player
+        player = GameObject.Find("Player");
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        // For bombs, update how loud the ticking is
+        if (type == CollectableType.Bomb)
+        {
+            // Distance between player and bomb
+            float distance = Vector3.Distance(gameObject.transform.position, player.transform.position);
+            // Adjust volume based on how close player is
+            TickingSource.volume = (MaxTickingDistance - Mathf.Clamp(distance, 0.0f, MaxTickingDistance)) / MaxTickingDistance;
+        }
     }
 
     //play the explosion sound effect
@@ -84,11 +104,6 @@ public class CubeController : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public CollectableType Type()
     {
