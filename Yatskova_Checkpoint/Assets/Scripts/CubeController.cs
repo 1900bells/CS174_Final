@@ -28,6 +28,9 @@ public class CubeController : MonoBehaviour
     // Is this object already collected
     public bool Collected;
 
+    // Audio sources
+    public AudioSource[] SourceArray;
+
     public AudioSource audioSource;
     public AudioClip CollectClip;
     public AudioClip ExplodeClip;
@@ -50,6 +53,9 @@ public class CubeController : MonoBehaviour
 
         // Get reference to player
         player = GameObject.Find("Player");
+
+        SourceArray[0] = audioSource;
+        SourceArray[1] = TickingSource;
     }
 
     // Update is called once per frame
