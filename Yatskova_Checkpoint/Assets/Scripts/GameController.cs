@@ -14,11 +14,14 @@ public class GameController : MonoBehaviour
         StateMenu,
         StatePlay,
         StateWin,
-        StateLose
+        StateLose,
+        StatePaused
     }
 
     // The game state we are currently in
     private GameState CurrentGameState;
+    // The game state we were previously in
+    private GameState PrevGameState;
 
     // Start is called before the first frame update
     void Start()
@@ -66,9 +69,19 @@ public class GameController : MonoBehaviour
         Vector3 direction = new Vector3(moveHorizontal, 0.0f, moveVertical);
         player.Move(direction);
 
-        if (CurrentGameState == GameState.StateMenu)
+        // Player presses pause button
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-
+            // If game is already paused, unpause game
+            if (CurrentGameState == GameState.StatePaused)
+            {
+                ResumeGame();
+            }
+            // If game is not already paused, pause the game
+            else
+            {
+                PauseGame();
+            }
         }
     }
 
@@ -81,6 +94,8 @@ public class GameController : MonoBehaviour
     // Sets the current game state
     void SetGameState(GameState newGameState)
     {
+        // Store previous game state
+        PrevGameState = CurrentGameState;
         // Set the new game state
         CurrentGameState = newGameState;
 
@@ -90,6 +105,50 @@ public class GameController : MonoBehaviour
         if (newGameState == GameState.StatePlay)
         {
             musicController.PlayPlayMusic();
+        }
+    }
+
+    // Pause the game
+    void PauseGame()
+    {
+        SetGameState(GameState.StatePaused);
+        // Hide pause menu
+
+        // Unfreeze time
+        Time.timeScale = 1.0f;
+    }
+
+    // Resume the game
+    void ResumeGame()
+    {
+        SetGameState(PrevGameState);
+        // Show pause menu
+
+        // Freeze time
+        Time.timeScale = 0.0f;
+    }
+
+    // Muting all sounds in game
+    // Solution for Muting select audio can be found here:
+    //https://stackoverflow.com/questions/54348225/stop-all-audiosources-in-every-scene-in-unity#:~:text=Alternatively%20you%20can%20try%20to,them%20by%20setting%20to%20%3D%201%20.
+    //Save the volume value and set it to 0 after
+    public Dictionary<AudioSource, float> MuteSourcesAndSaveVolumes(List<AudioSource> sourcesToMute)
+    {
+        var sourcesAndVolumes = new Dictionary<AudioSource, float>();
+        foreach (var source in sourcesToMute)
+        {
+            sourcesAndVolumes.Add(source, source.volume);
+            source.volume = 0;
+        }
+        return sourcesAndVolumes;
+    }
+
+    //Re-apply your saved volumes
+    public void UnMuteAllSources(Dictionary<AudioSource, float> sourcesAndVolumes)
+    {
+        foreach (var x in sourcesAndVolumes)
+        {
+            x.Key.volume = x.Value;
         }
     }
 }
