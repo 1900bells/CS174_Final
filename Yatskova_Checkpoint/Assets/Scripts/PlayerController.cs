@@ -191,10 +191,11 @@ public class PlayerController : MonoBehaviour
 
         if (collision.relativeVelocity.magnitude > 0)
         {
-            //float volume = Mathf.Ceil(collision.relativeVelocity.magnitude)
+            float volume = Mathf.Clamp(collision.relativeVelocity.magnitude, 1.0f, 10.0f) / 10.0f;
 
             // Play collision sound effect
             CollisionSource.clip = CollisionClip;
+            CollisionSource.volume = volume;
             CollisionSource.Play();
         }
     }
