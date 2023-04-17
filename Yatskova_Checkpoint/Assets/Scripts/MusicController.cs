@@ -34,4 +34,14 @@ public class MusicController : MonoBehaviour
         Source.clip = PlayMusic;
         Source.Play();
     }
+
+    public void DampenMusic()
+    {
+        Source.volume = 0.3f;
+    }
+
+    public void UnDampenMusic()
+    {
+        Source.volume = 1.0f;
+    }
 }

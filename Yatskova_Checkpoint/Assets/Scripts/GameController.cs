@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour
     // References to specific objects
     public MusicController musicController;   // Music Player
     public PlayerController player;           // Player
+    public GameObject PauseMenu;              // The pause menu
 
     // List of possible Game States
     public enum GameState
@@ -112,43 +113,23 @@ public class GameController : MonoBehaviour
     void PauseGame()
     {
         SetGameState(GameState.StatePaused);
-        // Hide pause menu
-
+        // Show pause menu
+        PauseMenu.SetActive(true);
         // Unfreeze time
-        Time.timeScale = 1.0f;
+        Time.timeScale = 0.0f;
+        // Atenuate Music
+        musicController.DampenMusic();
     }
 
     // Resume the game
     void ResumeGame()
     {
         SetGameState(PrevGameState);
-        // Show pause menu
-
+        // Hide pause menu
+        PauseMenu.SetActive(false);
         // Freeze time
-        Time.timeScale = 0.0f;
-    }
-
-    // Muting all sounds in game
-    // Solution for Muting select audio can be found here:
-    //https://stackoverflow.com/questions/54348225/stop-all-audiosources-in-every-scene-in-unity#:~:text=Alternatively%20you%20can%20try%20to,them%20by%20setting%20to%20%3D%201%20.
-    //Save the volume value and set it to 0 after
-    public Dictionary<AudioSource, float> MuteSourcesAndSaveVolumes(List<AudioSource> sourcesToMute)
-    {
-        var sourcesAndVolumes = new Dictionary<AudioSource, float>();
-        foreach (var source in sourcesToMute)
-        {
-            sourcesAndVolumes.Add(source, source.volume);
-            source.volume = 0;
-        }
-        return sourcesAndVolumes;
-    }
-
-    //Re-apply your saved volumes
-    public void UnMuteAllSources(Dictionary<AudioSource, float> sourcesAndVolumes)
-    {
-        foreach (var x in sourcesAndVolumes)
-        {
-            x.Key.volume = x.Value;
-        }
+        Time.timeScale = 1.0f;
+        // Atenuate Music
+        musicController.UnDampenMusic();
     }
 }
