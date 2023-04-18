@@ -73,5 +73,11 @@ public class PlayerSpeedSoundController : MonoBehaviour
         SlowMovementSound.Play();
         FastMovementSound.Play();
     }
+
+    public void StopSounds()
+    {
+        SlowMovementSound.Stop();
+        FastMovementSound.Stop();
+    }
 }
 

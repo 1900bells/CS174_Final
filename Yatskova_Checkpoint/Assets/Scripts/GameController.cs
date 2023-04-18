@@ -206,6 +206,8 @@ public class GameController : MonoBehaviour
         Time.timeScale = 0.0f;
         // Atenuate Music
         musicController.DampenMusic();
+        // Mute all player sounds
+        player.GetComponent<PlayerSpeedSoundController>().StopSounds();
     }
 
     // Resume the game
@@ -218,6 +220,8 @@ public class GameController : MonoBehaviour
         Time.timeScale = 1.0f;
         // Atenuate Music
         musicController.UnDampenMusic();
+        // Unmute the player sounds
+        player.GetComponent<PlayerSpeedSoundController>().StartSounds();
     }
 
     void ResetGame()
