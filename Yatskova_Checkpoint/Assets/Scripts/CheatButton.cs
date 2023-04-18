@@ -9,7 +9,10 @@ public class CheatButton : MonoBehaviour
     [SerializeField]
     AudioSource ButtonSource;
     [SerializeField]
-    AudioClip ButtonSound;
+    AudioClip PressSound;
+    [SerializeField]
+    AudioClip HoverSound;
+
 
     // Start is called before the first frame update
     void Start()
@@ -42,7 +45,13 @@ public class CheatButton : MonoBehaviour
         }
 
         // Play button sound
-        ButtonSource.clip = ButtonSound;
+        ButtonSource.clip = PressSound;
+        ButtonSource.Play();
+    }
+
+    public void OnHover()
+    {
+        ButtonSource.clip = HoverSound;
         ButtonSource.Play();
     }
 }
