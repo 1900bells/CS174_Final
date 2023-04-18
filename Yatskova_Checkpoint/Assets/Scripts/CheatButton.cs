@@ -6,6 +6,11 @@ public class CheatButton : MonoBehaviour
 {
     bool CheatActive;
 
+    [SerializeField]
+    AudioSource ButtonSource;
+    [SerializeField]
+    AudioClip ButtonSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,5 +40,9 @@ public class CheatButton : MonoBehaviour
             CheatActive = true;
             CubeController.RevealBombAndTreasure();
         }
+
+        // Play button sound
+        ButtonSource.clip = ButtonSound;
+        ButtonSource.Play();
     }
 }

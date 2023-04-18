@@ -231,16 +231,6 @@ public class PlayerController : MonoBehaviour
         // display count amount
         countText.text = "Count: " + count.ToString();
 
-        // if the count is more than or equal to 12
-        if (count >= 13)
-        {
-            UpdateGameActiveState(false);
-
-            // you have won
-            HasWon = true;
-            timerTime = 1;
-        }
-
         // if you run out of time, and you haven't won yet
         if (timerTime == 0 && HasWon == false)
         {
