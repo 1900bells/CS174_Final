@@ -16,21 +16,21 @@ Description: Script that controls the camera
 public class CameraController : MonoBehaviour
 {
 
-    //create player
+    // create player
     public GameObject player;
 
-    //create offset value
+    // create offset value
     private Vector3 offset;
 
     void Start()
     {
-        //take current camera transform position and find difference between camera and player position
+        // take current camera transform position and find difference between camera and player position
         offset = transform.position - player.transform.position;
     }
 
     void LateUpdate()
     {
-        //set camera's transform position to the player's transform position, every frame
+        // set camera's transform position to the player's transform position, every frame
         transform.position = player.transform.position + offset;
     }
 }

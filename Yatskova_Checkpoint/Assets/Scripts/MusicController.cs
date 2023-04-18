@@ -106,6 +106,21 @@ public class MusicController : MonoBehaviour
         isPaused = false;
     }
 
+    // Dampen music for a set time
+    public void DuckMusic(float time)
+    {
+        Source.volume = 0.2f;
+
+        // Undo this in "time" seconds
+        Invoke("UnDampenMusic", time);
+    }
+
+
+    public void UnDuckMusic()
+    {
+        Source.volume = defaultVolume;
+    }
+
     // Fade out inactive music
 
     // Fade in active music

@@ -14,6 +14,9 @@ public class GameController : MonoBehaviour
     public GameObject MenuText;               // The menu text
     public CoverFade coverFade;               // Black cover on screen
 
+    public AudioSource Announcer;             // The voice announcer
+    public AudioClip AnnounceStart;           // I say "start"
+
     // List of possible Game States
     public enum GameState
     {
@@ -153,7 +156,15 @@ public class GameController : MonoBehaviour
                 if (cube.Type() == CubeController.CollectableType.Bomb)
                     cube.StartTickingSound();
             }
-            
+
+            if (PrevGameState == GameState.StateMenu)
+            {
+                // Do the voice over if going from menu
+                Announcer.clip = AnnounceStart;
+                Announcer.Play();
+                // Duck the music for this voice over
+                musicController.DuckMusic(Announcer.clip.length);
+            }
         }
 
         else if (newGameState == GameState.StateWin)

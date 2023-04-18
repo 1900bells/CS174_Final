@@ -15,10 +15,10 @@ Description: Script that rotates the objects and bomb
 
 public class Rotator : MonoBehaviour
 {
-    //function is called every frame
+    // function is called every frame
     void Update()
     {
-        //rotate the cube
+        // rotate the cube
         transform.Rotate(new Vector3(15, 30, 45) * Time.deltaTime);
     }
 }
