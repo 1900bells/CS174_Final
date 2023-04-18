@@ -28,9 +28,6 @@ public class CubeController : MonoBehaviour
     // Is this object already collected
     public bool Collected;
 
-    // Audio sources
-    public AudioSource[] SourceArray;
-
     public AudioSource audioSource;
     public AudioClip CollectClip;
     public AudioClip ExplodeClip;
@@ -38,7 +35,9 @@ public class CubeController : MonoBehaviour
     //sound of the ticking bomb
     public AudioSource TickingSource;
     public AudioClip TickingSound;
-    public float MaxTickingDistance;
+
+    [SerializeField]
+    float MaxTickingDistance;
 
     // Object specific references
     public GameObject player;
@@ -53,9 +52,6 @@ public class CubeController : MonoBehaviour
 
         // Get reference to player
         player = GameObject.Find("Player");
-
-        SourceArray[0] = audioSource;
-        SourceArray[1] = TickingSource;
     }
 
     // Update is called once per frame
@@ -68,6 +64,8 @@ public class CubeController : MonoBehaviour
             float distance = Vector3.Distance(gameObject.transform.position, player.transform.position);
             // Adjust volume based on how close player is
             TickingSource.volume = (MaxTickingDistance - Mathf.Clamp(distance, 0.0f, MaxTickingDistance)) / MaxTickingDistance;
+
+            float butt = 1;
         }
     }
 
@@ -80,6 +78,8 @@ public class CubeController : MonoBehaviour
         // Stop ticking sound effect
         TickingSource.Stop();
         //Play the explode sound effect
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = ExplodeClip;
         audioSource.Play();
 
         //Make object invisible
@@ -128,9 +128,6 @@ public class CubeController : MonoBehaviour
             TickingSource.loop = true;
             TickingSource.clip = TickingSound;
             TickingSource.Play();
-
-            // Explode sound should play when collected
-            audioSource.clip = ExplodeClip;
         }
     }
 

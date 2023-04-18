@@ -1618,6 +1618,10 @@ PrefabInstance:
       propertyPath: MinDistance
       value: 0.44557
       objectReference: {fileID: 0}
+    - target: {fileID: 5537722628211249139, guid: cb8badde1ab54314dbf02b0084c1a01a, type: 3}
+      propertyPath: MaxTickingDistance
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 5537722628211249147, guid: cb8badde1ab54314dbf02b0084c1a01a, type: 3}
       propertyPath: m_Name
       value: Pick Up
