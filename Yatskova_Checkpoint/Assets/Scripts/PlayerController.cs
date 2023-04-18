@@ -33,7 +33,9 @@ public class PlayerController : MonoBehaviour
     public AudioClip JumpClip;
 
     public AudioSource MovementSound;
-    public AudioClip MovementClip;
+    public AudioClip SlowMovementClip;
+    public AudioClip FastMovementClip;
+    public AudioSource FadeOutMovementSound;
 
     public AudioSource CollisionSource;
     public AudioClip CollisionClip;
@@ -41,7 +43,7 @@ public class PlayerController : MonoBehaviour
     public AudioSource[] SourceArray;
 
     public int maxTime;
-    public int timerTime;
+    float timerTime;
 
     // create the variable to hold the reference
     private Rigidbody rb;
@@ -82,18 +84,19 @@ public class PlayerController : MonoBehaviour
         // our count is equal to 0
         count = 0;
 
+        ResetTimer();
+        TimerCount();
+
         // call function
         SetCountText();
 
-        ResetTimer();
-        TimerCount();
 
         NotJumping = true;
 
         SourceArray = GetComponents<AudioSource>();
         MovementSound = SourceArray[0];
-        MovementSound.clip = MovementClip;
-        MovementSound.Play();
+        MovementSound.clip = SlowMovementClip;
+        //MovementSound.Play();
 
         JumpSource = SourceArray[1];
 
@@ -112,6 +115,7 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(direction * speed * Time.deltaTime);
 
         // Update the sound of the rolling ball based on current horizontal speed
+        /*
         if (NotJumping == false)
         {
             MovementSound.volume = 0;
@@ -119,13 +123,27 @@ public class PlayerController : MonoBehaviour
         else if (NotJumping == true)
         {
             float magnitude = rb.velocity.magnitude;
+            if (magnitude > 10)
+            {
+                MovementSound.clip = FastMovementClip;
+                if (MovementSound.isPlaying == false)
+                    MovementSound.Play();
+            }
+
             MovementSound.volume = Mathf.Clamp(magnitude, 0.0f, 15.0f) / 15.0f;
         }
+         */
     }
 
     private void Update()
     {
+        // Set the count text
         SetCountText();
+        if (GameActive == true)
+        {
+            // Countdown the timer
+            TimerCount();
+        }
     }
 
     // jump mechanic
@@ -170,20 +188,19 @@ public class PlayerController : MonoBehaviour
                     // call function
                     SetCountText();
                 }
+                // Player picks up treasure
                 else if (cube.Type() == CubeController.CollectableType.Treasure)
                 {
                     // Pick up the treasure
                     other.gameObject.GetComponent<CubeController>().PickupObject();
                     WinState();
-                    gameController.SetGameState(GameController.GameState.StateWin);
-
                 }
+                // Player picks up bomb
                 else if (cube.Type() == CubeController.CollectableType.Bomb)
                 {
                     // then you lose
-                    LoseState();
-                    gameController.SetGameState(GameController.GameState.StateLose);
                     cube.Explode();
+                    LoseState();
                 }
             }
         }
@@ -234,7 +251,7 @@ public class PlayerController : MonoBehaviour
     public void WinState()
     {
         UpdateGameActiveState(false);
-
+        gameController.SetGameState(GameController.GameState.StateWin);
         timerTime = 1;
     }
 
@@ -242,7 +259,7 @@ public class PlayerController : MonoBehaviour
     public void LoseState()
     {
         UpdateGameActiveState(false);
-
+        gameController.SetGameState(GameController.GameState.StateLose);
         timerTime = 1;
     }
 
@@ -257,13 +274,11 @@ public class PlayerController : MonoBehaviour
     // count down with timer
     void TimerCount()
     {
-        timerTime--;
-        timerText.text = timerTime.ToString();
+        timerTime -= Time.deltaTime;
+        timerText.text = ((int)timerTime).ToString();
 
-        if (timerTime > 0)
-        {
-            Invoke("TimerCount", 1f);
-        }
+        if (timerTime < 0.0f)
+            LoseState();
     }
 
 }
