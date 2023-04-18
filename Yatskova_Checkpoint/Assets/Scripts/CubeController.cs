@@ -30,6 +30,7 @@ public class CubeController : MonoBehaviour
 
     public AudioSource audioSource;
     public AudioClip CollectClip;
+    public AudioClip TreasureCollectClip;
     public AudioClip ExplodeClip;
 
     //sound of the ticking bomb
@@ -67,6 +68,16 @@ public class CubeController : MonoBehaviour
         }
     }
 
+    void OnMouseDown()
+    {
+        // Turn bombs red
+        if (type == CollectableType.Bomb)
+            GetComponent<Renderer>().material.color = Color.red;
+        // Turn treasures yellow
+        else if (type == CollectableType.Treasure)
+            GetComponent<Renderer>().material.color = Color.yellow;
+    }
+
     //play the explosion sound effect
     public void Explode()
     {
@@ -93,7 +104,10 @@ public class CubeController : MonoBehaviour
 
         //Play the pickup sound effect
         audioSource = GetComponent<AudioSource>();
-        audioSource.clip = CollectClip;
+        if (type == CollectableType.Treasure)
+            audioSource.clip = TreasureCollectClip;
+        else
+            audioSource.clip = CollectClip;
         audioSource.Play();
 
         //Make object invisible

@@ -72,6 +72,7 @@ public class GameController : MonoBehaviour
         player.Move(direction);
 
         // Player holds cheat button
+        /*
         if (Input.GetKey(KeyCode.LeftShift))
         {
             // Reveal the bomb and treasure objects
@@ -81,6 +82,7 @@ public class GameController : MonoBehaviour
         {
             CubeController.HideBombAndTreasure();
         }
+         */
 
         // Player presses pause button
         if (Input.GetKeyDown(KeyCode.Escape))
