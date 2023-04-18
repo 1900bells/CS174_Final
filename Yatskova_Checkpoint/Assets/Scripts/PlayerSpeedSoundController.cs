@@ -62,10 +62,10 @@ public class PlayerSpeedSoundController : MonoBehaviour
              */
 
             //SlowMovementSound.volume = Mathf.Clamp(magnitude, 0.0f, 10.0f) / 10.0f;
-            SlowMovementSound.volume = 1.0f - Mathf.Abs(10.0f - magnitude) / 10.0f;
+            SlowMovementSound.volume = (1.0f - Mathf.Abs(10.0f - magnitude) / 10.0f) * Time.timeScale;
             if (magnitude > 13)
                 SlowMovementSound.volume = 0.0f;
-            FastMovementSound.volume = Mathf.Clamp(magnitude, 0.0f, 20.0f) / 20.0f;
+            FastMovementSound.volume = (Mathf.Clamp(magnitude, 0.0f, 20.0f) / 20.0f) * Time.timeScale;
         }
     }
     public void StartSounds()

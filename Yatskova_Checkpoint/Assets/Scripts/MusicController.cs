@@ -12,13 +12,15 @@ public class MusicController : MonoBehaviour
     public AudioClip PlayMusic;
     public AudioClip WinMusic;
     public AudioClip LoseMusic;
+    public AudioClip NoMusic;
 
     public enum Music
     {
         MenuMusic,
         PlayMusic,
         WinMusic,
-        LoseMusic
+        LoseMusic,
+        NoMusic
     }
 
     [SerializeField]
@@ -82,6 +84,8 @@ public class MusicController : MonoBehaviour
             Source.clip = WinMusic;
         if (newMusic == Music.LoseMusic)
             Source.clip = LoseMusic;
+        if (newMusic == Music.NoMusic)
+            Source.clip = NoMusic;
         // New music volume starts at 0, but will fade in
         Source.volume = 0.0f;
         // Start playing new music

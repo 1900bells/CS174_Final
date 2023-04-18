@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
     public GameObject WinText;                // The win text
     public GameObject LoseText;               // The lose text
     public GameObject MenuText;               // The menu text
+    public CoverFade coverFade;               // Black cover on screen
 
     // List of possible Game States
     public enum GameState
@@ -20,7 +21,8 @@ public class GameController : MonoBehaviour
         StatePlay,
         StateWin,
         StateLose,
-        StatePaused
+        StatePaused,
+        StateReset
     }
 
     // The game state we are currently in
@@ -102,7 +104,7 @@ public class GameController : MonoBehaviour
         // Player presses reset
         if (Input.GetKeyDown(KeyCode.R))
         {
-            Invoke("ResetGame", 1.0f);
+            SetGameState(GameState.StateReset);
         }
     }
 
@@ -168,6 +170,18 @@ public class GameController : MonoBehaviour
             musicController.SwapMusic(MusicController.Music.LoseMusic);
             // Display lose text
             LoseText.SetActive(true);
+        }
+
+        else if (newGameState == GameState.StateReset)
+        {
+            // Fade out music
+            musicController.SwapMusic(MusicController.Music.NoMusic);
+            // Reset scene in 1 second
+            Invoke("ResetGame", 1.0f);
+            // Set timescale to normal
+            Time.timeScale = 1.0f;
+            // Fade in the black cover
+            coverFade.FadeIn();
         }
     }
 
