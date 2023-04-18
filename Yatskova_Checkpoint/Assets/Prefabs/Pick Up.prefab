@@ -240,9 +240,9 @@ MonoBehaviour:
   Collected: 0
   audioSource: {fileID: 0}
   CollectClip: {fileID: 8300000, guid: 6d0b2ad0869824544865f97bff8197f3, type: 3}
-  TreasureCollectClip: {fileID: 8300000, guid: ad58182bb2aef514b89d434eb8df806c, type: 3}
+  TreasureCollectClip: {fileID: 8300000, guid: 6d0b2ad0869824544865f97bff8197f3, type: 3}
   ExplodeClip: {fileID: 8300000, guid: 81762923707c8a34481cf423ac8c52c9, type: 3}
   TickingSource: {fileID: 0}
   TickingSound: {fileID: 8300000, guid: 62b2289df08ad384c832a5462d8d550f, type: 3}
-  MaxTickingDistance: 4
+  MaxTickingDistance: 3
   player: {fileID: 0}

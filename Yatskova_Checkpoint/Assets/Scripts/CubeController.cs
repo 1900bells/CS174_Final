@@ -68,16 +68,6 @@ public class CubeController : MonoBehaviour
         }
     }
 
-    void OnMouseDown()
-    {
-        // Turn bombs red
-        if (type == CollectableType.Bomb)
-            GetComponent<Renderer>().material.color = Color.red;
-        // Turn treasures yellow
-        else if (type == CollectableType.Treasure)
-            GetComponent<Renderer>().material.color = Color.yellow;
-    }
-
     //play the explosion sound effect
     public void Explode()
     {

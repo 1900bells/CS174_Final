@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour
     public PlayerController player;           // Player
     public GameObject PauseMenu;              // The pause menu
     public GameObject WinText;                // The win text
+    public GameObject LoseText;               // The lose text
 
     // List of possible Game States
     public enum GameState
@@ -30,9 +31,6 @@ public class GameController : MonoBehaviour
     {
         // Start game in menu state
         CurrentGameState = GameState.StateMenu;
-
-        // Play menu music
-        musicController.PlayMenuMusic();
 
         // Randomly set one of the pick ups to be bomb & one to be treasure
         GameObject[] pickUps = GameObject.FindGameObjectsWithTag("Pick Up");
@@ -119,15 +117,23 @@ public class GameController : MonoBehaviour
         // Transition to play game state
         if (newGameState == GameState.StatePlay)
         {
-            musicController.PlayPlayMusic();
+
         }
 
         else if (newGameState == GameState.StateWin)
         {
             // Play win music
-
+            musicController.SwapMusic(MusicController.Music.WinMusic);
             // Display win text
             WinText.SetActive(true);
+        }
+
+        else if (newGameState == GameState.StateLose)
+        {
+            // Play lose music
+            musicController.SwapMusic(MusicController.Music.LoseMusic);
+            // Display lose text
+            LoseText.SetActive(true);
         }
     }
 

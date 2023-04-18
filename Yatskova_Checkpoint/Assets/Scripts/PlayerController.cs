@@ -174,6 +174,7 @@ public class PlayerController : MonoBehaviour
                 {
                     // Pick up the treasure
                     other.gameObject.GetComponent<CubeController>().PickupObject();
+                    WinState();
                     gameController.SetGameState(GameController.GameState.StateWin);
 
                 }
