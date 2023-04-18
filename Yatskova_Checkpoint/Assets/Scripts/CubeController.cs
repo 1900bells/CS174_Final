@@ -129,7 +129,7 @@ public class CubeController : MonoBehaviour
             TickingSource = GetComponent<AudioSource>();
             TickingSource.loop = true;
             TickingSource.clip = TickingSound;
-            TickingSource.Play();
+            //TickingSource.Play();
         }
     }
 
@@ -161,5 +161,10 @@ public class CubeController : MonoBehaviour
             else if (pickup.type == CollectableType.Treasure)
                 pickup.GetComponent<Renderer>().material.color = defaultColor;
         }
+    }
+
+    public void StartTickingSound()
+    {
+        TickingSource.Play();
     }
 }

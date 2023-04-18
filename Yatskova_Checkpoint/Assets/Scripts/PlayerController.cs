@@ -96,7 +96,7 @@ public class PlayerController : MonoBehaviour
         SourceArray = GetComponents<AudioSource>();
         MovementSound = SourceArray[0];
         MovementSound.clip = SlowMovementClip;
-        //MovementSound.Play();
+        MovementSound.volume = 0;
 
         JumpSource = SourceArray[1];
 
@@ -214,7 +214,9 @@ public class PlayerController : MonoBehaviour
 
         if (collision.relativeVelocity.magnitude > 0)
         {
-            float volume = Mathf.Clamp(collision.relativeVelocity.magnitude, 1.0f, 10.0f) / 10.0f;
+            float volume = Mathf.Clamp(collision.relativeVelocity.magnitude, 0.0f, 10.0f) / 10.0f;
+            if (collision.relativeVelocity.magnitude < 3)
+                volume = 0;
 
             // Play collision sound effect
             CollisionSource.clip = CollisionClip;

@@ -25,10 +25,10 @@ public class PlayerSpeedSoundController : MonoBehaviour
         FastMovementSound = SourceArray[4];
 
         SlowMovementSound.clip = SlowMovementClip;
-        SlowMovementSound.Play();
+        //SlowMovementSound.Play();
 
         FastMovementSound.clip = FastMovementClip;
-        FastMovementSound.Play();
+        //FastMovementSound.Play();
     }
 
     // Update is called once per frame
@@ -68,4 +68,10 @@ public class PlayerSpeedSoundController : MonoBehaviour
             FastMovementSound.volume = Mathf.Clamp(magnitude, 0.0f, 20.0f) / 20.0f;
         }
     }
+    public void StartSounds()
+    {
+        SlowMovementSound.Play();
+        FastMovementSound.Play();
+    }
 }
+

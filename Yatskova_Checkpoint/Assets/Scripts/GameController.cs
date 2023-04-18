@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class GameController : MonoBehaviour
     public GameObject PauseMenu;              // The pause menu
     public GameObject WinText;                // The win text
     public GameObject LoseText;               // The lose text
+    public GameObject MenuText;               // The menu text
 
     // List of possible Game States
     public enum GameState
@@ -55,12 +57,25 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Pause game while in menu
+        if (CurrentGameState == GameState.StateMenu)
+        {
+            Time.timeScale = 0.0f;
+        }
+
         // Take input thru the "Game Controller" object
 
         // Player jumps
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            player.Jump();
+            if (CurrentGameState == GameState.StateMenu)
+            {
+                SetGameState(GameState.StatePlay);
+            }
+            else
+            {
+                player.Jump();
+            }
         }
 
         // Player Rolling
@@ -68,8 +83,6 @@ public class GameController : MonoBehaviour
         float moveVertical = Input.GetAxis("Vertical");
         Vector3 direction = new Vector3(moveHorizontal, 0.0f, moveVertical);
         player.Move(direction);
-
-
 
         // Player presses pause button
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -84,6 +97,12 @@ public class GameController : MonoBehaviour
             {
                 PauseGame();
             }
+        }
+
+        // Player presses reset
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Invoke("ResetGame", 1.0f);
         }
     }
 
@@ -102,11 +121,37 @@ public class GameController : MonoBehaviour
         CurrentGameState = newGameState;
 
         // Do other desired behaviors here...
+        if (newGameState == GameState.StateMenu)
+        {
+            // Play the play music
+            musicController.SwapMusic(MusicController.Music.MenuMusic);
+            // Show menu text
+            MenuText.SetActive(true);
+            // Hide Win and Lose text
+            WinText.SetActive(false);
+            LoseText.SetActive(false);
+        }
+
 
         // Transition to play game state
-        if (newGameState == GameState.StatePlay)
+        else if (newGameState == GameState.StatePlay)
         {
-
+            // Play the play music
+            musicController.SwapMusic(MusicController.Music.PlayMusic);
+            // Hide menu text
+            MenuText.SetActive(false);
+            // Unfreeze the game
+            Time.timeScale = 1.0f;
+            // Start player rolling sounds
+            player.GetComponent<PlayerSpeedSoundController>().StartSounds();
+            // Start all ticking sounds
+            CubeController[] cubes = GameObject.FindObjectsOfType<CubeController>();
+            foreach (CubeController cube in cubes)
+            {
+                if (cube.Type() == CubeController.CollectableType.Bomb)
+                    cube.StartTickingSound();
+            }
+            
         }
 
         else if (newGameState == GameState.StateWin)
@@ -148,5 +193,10 @@ public class GameController : MonoBehaviour
         Time.timeScale = 1.0f;
         // Atenuate Music
         musicController.UnDampenMusic();
+    }
+
+    void ResetGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

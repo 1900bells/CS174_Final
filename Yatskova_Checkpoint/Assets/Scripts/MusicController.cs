@@ -45,6 +45,7 @@ public class MusicController : MonoBehaviour
 
         // Start by playing menu music
         Source.clip = MenuMusic;
+        Source.volume = 0.0f;
         Source.Play();
 
         // Start game not paused
@@ -58,9 +59,9 @@ public class MusicController : MonoBehaviour
         if (isPaused == false)
         {
             // Fade in new music
-            Source.volume = Mathf.Clamp(Source.volume + (defaultVolume / crossFadeTime * Time.deltaTime), 0.0f, defaultVolume);
+            Source.volume = Mathf.Clamp(Source.volume + (defaultVolume / crossFadeTime * Time.unscaledDeltaTime), 0.0f, defaultVolume);
             // Fade out old music
-            FadeOutSource.volume = Mathf.Clamp(FadeOutSource.volume - (defaultVolume / crossFadeTime * Time.deltaTime), 0.0f, defaultVolume);
+            FadeOutSource.volume = Mathf.Clamp(FadeOutSource.volume - (defaultVolume / crossFadeTime * Time.unscaledDeltaTime), 0.0f, defaultVolume);
         }
     }
 
