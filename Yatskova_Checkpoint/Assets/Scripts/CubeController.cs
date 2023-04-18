@@ -64,8 +64,6 @@ public class CubeController : MonoBehaviour
             float distance = Vector3.Distance(gameObject.transform.position, player.transform.position);
             // Adjust volume based on how close player is
             TickingSource.volume = (MaxTickingDistance - Mathf.Clamp(distance, 0.0f, MaxTickingDistance)) / MaxTickingDistance;
-
-            float butt = 1;
         }
     }
 

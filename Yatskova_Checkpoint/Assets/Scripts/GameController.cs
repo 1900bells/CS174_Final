@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour
     public MusicController musicController;   // Music Player
     public PlayerController player;           // Player
     public GameObject PauseMenu;              // The pause menu
+    public GameObject WinText;                // The win text
 
     // List of possible Game States
     public enum GameState
@@ -104,7 +105,7 @@ public class GameController : MonoBehaviour
     }
 
     // Sets the current game state
-    void SetGameState(GameState newGameState)
+    public void SetGameState(GameState newGameState)
     {
         // Store previous game state
         PrevGameState = CurrentGameState;
@@ -117,6 +118,14 @@ public class GameController : MonoBehaviour
         if (newGameState == GameState.StatePlay)
         {
             musicController.PlayPlayMusic();
+        }
+
+        else if (newGameState == GameState.StateWin)
+        {
+            // Play win music
+
+            // Display win text
+            WinText.SetActive(true);
         }
     }
 

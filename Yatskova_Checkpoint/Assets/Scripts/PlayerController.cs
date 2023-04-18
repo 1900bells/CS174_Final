@@ -26,9 +26,6 @@ public class PlayerController : MonoBehaviour
     // assign text to variable
     public Text countText;
 
-    // reference winText
-    public Text winText;
-
     // create timer
     public Text timerText;
 
@@ -61,7 +58,8 @@ public class PlayerController : MonoBehaviour
     // checks whether or not the player has won, which at the start of the game they have not yet
     public bool HasWon = false;
 
-    GameObject BombObject;
+    // Object specific references
+    GameController gameController;
 
     void UpdateGameActiveState(bool active)
     {
@@ -87,9 +85,6 @@ public class PlayerController : MonoBehaviour
         // call function
         SetCountText();
 
-        // assign to string value
-        winText.text = "";
-
         ResetTimer();
         TimerCount();
 
@@ -106,7 +101,8 @@ public class PlayerController : MonoBehaviour
 
         UpdateGameActiveState(true);
 
-
+        // Get reference to game controller
+        gameController = GameObject.Find("GameController").GetComponent<GameController>();
     }
 
     // Roll the player in a specific direction
@@ -174,10 +170,18 @@ public class PlayerController : MonoBehaviour
                     // call function
                     SetCountText();
                 }
+                else if (cube.Type() == CubeController.CollectableType.Treasure)
+                {
+                    // Pick up the treasure
+                    other.gameObject.GetComponent<CubeController>().PickupObject();
+                    gameController.SetGameState(GameController.GameState.StateWin);
+
+                }
                 else if (cube.Type() == CubeController.CollectableType.Bomb)
                 {
                     // then you lose
                     LoseState();
+                    gameController.SetGameState(GameController.GameState.StateLose);
                     cube.Explode();
                 }
             }
@@ -211,9 +215,6 @@ public class PlayerController : MonoBehaviour
         if (count >= 13)
         {
             UpdateGameActiveState(false);
- 
-            // tell the player they have won
-            winText.text = "You Win!";
 
             // you have won
             HasWon = true;
@@ -229,12 +230,18 @@ public class PlayerController : MonoBehaviour
         }    
     }
 
+    public void WinState()
+    {
+        UpdateGameActiveState(false);
+
+        timerTime = 1;
+    }
+
     // the game's lose state that tells the player they have lost, and sets the timer to display 0
     public void LoseState()
     {
         UpdateGameActiveState(false);
 
-        winText.text = "You Lose!";
         timerTime = 1;
     }
 
